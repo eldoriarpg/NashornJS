@@ -1,0 +1,21 @@
+name: NashornJs
+main: de.eldoria.nashorn.Nashorn
+version: 1.0
+description: Nashorn JavaScript Engine for Severs on Java 15 or higher.
+api-version: 1.13
+authors:
+  - OpenJDK
+  - Hadde
+load: STARTUP
+
+commands:
+  js:
+    aliases:
+      - nashorn
+      - eval
+    permission: nashorn.eval
+    description: Evaluate some JS.
+
+permissions:
+  nashorn.eval:
+    default: op
