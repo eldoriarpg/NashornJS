@@ -34,7 +34,7 @@ public class Nashorn extends JavaPlugin {
     @Override
     public void onEnable() {
         if (getConfig().getBoolean("cli", false)) {
-            CLI cli = new CLI(factory, this);
+            var cli = new CLI(factory, this);
             getServer().getPluginManager().registerEvents(cli, this);
             getCommand("js").setExecutor(cli);
         }

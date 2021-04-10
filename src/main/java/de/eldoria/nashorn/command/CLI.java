@@ -40,16 +40,15 @@ public class CLI implements TabExecutor, Listener {
             sender.sendMessage(ChatColor.RED + "You dont have the permission to do this.");
             return true;
         }
-        try {
-            String userInput = getUserInput(sender, args);
-            if (sender instanceof Player) {
-                sender.sendMessage(ChatColor.DARK_GRAY + "> " + String.join(" ", args));
-            }
-            if (userInput != null) {
+
+        var userInput = getUserInput(sender, args);
+        if (sender instanceof Player) sender.sendMessage(ChatColor.DARK_GRAY + "> " + String.join(" ", args));
+        if (userInput != null) {
+            try {
                 sender.sendMessage(ChatColor.GRAY + "> " + getEngine(sender).eval(userInput));
+            } catch (ScriptException e) {
+                sender.sendMessage(ChatColor.RED + "> " + e.getMessage());
             }
-        } catch (ScriptException e) {
-            sender.sendMessage(ChatColor.RED + "> " + e.getMessage());
         }
         return true;
     }
@@ -60,21 +59,13 @@ public class CLI implements TabExecutor, Listener {
     }
 
     private ScriptEngine getEngine(CommandSender sender) {
-        if (!plugin.getConfig().getBoolean("perUserCli", false)) {
-            return engine;
-        }
-        if (sender instanceof Player) {
-            return userEngines.computeIfAbsent(((Player) sender).getUniqueId(), k -> factory.getScriptEngine());
-        }
-        if (engine == null) {
-            engine = factory.getScriptEngine();
-        }
-        return engine;
+        if (!plugin.getConfig().getBoolean("perUserCli", false)) return engine;
+        return userEngines.computeIfAbsent(getSenderUUID(sender), k -> factory.getScriptEngine());
     }
 
     private String getUserInput(CommandSender sender, String[] args) {
-        String expr = String.join(" ", args);
-        UUID uuid = sender instanceof Player ? ((Player) sender).getUniqueId() : null;
+        var expr = String.join(" ", args);
+        var uuid = getSenderUUID(sender);
         if (expr.endsWith("\\")) {
             final String sExpr = expr.substring(0, expr.length() - 1);
             userInput.compute(uuid, (k, v) -> v == null ? sExpr : v + sExpr);
@@ -82,6 +73,10 @@ public class CLI implements TabExecutor, Listener {
         }
 
         return userInput.containsKey(uuid) ? userInput.remove(uuid) + " " + expr : expr;
+    }
+
+    private UUID getSenderUUID(CommandSender sender){
+        return sender instanceof Player ? ((Player) sender).getUniqueId() : null;
     }
 
     @EventHandler
