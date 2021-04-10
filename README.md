@@ -11,9 +11,9 @@ NashornJS registers a ScriptEngineManager as a service on load.\
 You can use this service to retrieve your own nashorn engine instance.
 
 ``` java
-    RegisteredServiceProvider<ScriptEngineManager> registration = Bukkit.getServer().getServicesManager().getRegistration(ScriptEngineManager.class);
-    ScriptEngineManager scriptEngineManager = registration.getProvider();
-    ScriptEngine nashorn = scriptEngineManager.getEngineByName("nashorn");
+    var reg = Bukkit.getServer().getServicesManager().getRegistration(ScriptEngineManager.class);
+    var managerChan = reg.getProvider();
+    var nashornChan = managerChan.getEngineByName("nashorn");
 ```
 
 Thats all. Now you can use your nashorn instance like you always did.
