@@ -16,7 +16,7 @@ public class Nashorn extends JavaPlugin {
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
         saveConfig();
-        
+
         var services = getServer().getServicesManager();
         ScriptEngineManager engine;
         if (services.isProvidedFor(ScriptEngineManager.class)) {
