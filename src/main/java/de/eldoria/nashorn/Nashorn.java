@@ -13,6 +13,10 @@ public class Nashorn extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        saveDefaultConfig();
+        getConfig().options().copyDefaults(true);
+        saveConfig();
+        
         var services = getServer().getServicesManager();
         ScriptEngineManager engine;
         if (services.isProvidedFor(ScriptEngineManager.class)) {
@@ -26,9 +30,6 @@ public class Nashorn extends JavaPlugin {
             engine.registerEngineName(names, factory);
             getLogger().info("Registered Nashorn engine with name " + names);
         }
-        saveDefaultConfig();
-        getConfig().options().copyDefaults(true);
-        saveConfig();
     }
 
     @Override

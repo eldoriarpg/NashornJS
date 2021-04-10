@@ -67,7 +67,7 @@ public class CLI implements TabExecutor, Listener {
         var expr = String.join(" ", args);
         var uuid = getSenderUUID(sender);
         if (expr.endsWith("\\")) {
-            final String sExpr = expr.substring(0, expr.length() - 1);
+            final var sExpr = expr.substring(0, expr.length() - 1);
             userInput.compute(uuid, (k, v) -> v == null ? sExpr : v + sExpr);
             return null;
         }
