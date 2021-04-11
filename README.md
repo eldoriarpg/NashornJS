@@ -8,7 +8,7 @@ The NashornJS Plugin provides a ScriptEngineManager to create new script engines
 # How does it work?
 
 NashornJS registers a ScriptEngineManager as a service on load.\
-You can use this service to retrieve your own nashorn engine instance.\
+You can use this service to retrieve your own nashorn engine instance.
 
 
 ``` java
@@ -17,7 +17,7 @@ You can use this service to retrieve your own nashorn engine instance.\
     var nashornChan = managerChan.getEngineByName("nashorn");
 ```
 
-That's all. Now you can use your nashorn instance like you always did.\
+That's all. Now you can use your nashorn instance like you always did.
 
 You won't need any external dependency for this way, which was a main point for this implementation.\
 You may want to add `NashornJs` as a Softdepend in your plugin.yml
