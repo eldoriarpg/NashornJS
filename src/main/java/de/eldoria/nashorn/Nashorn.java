@@ -8,8 +8,9 @@ import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
+@SuppressWarnings("unused")
 public class Nashorn extends JavaPlugin {
-    ScriptEngineFactory factory = new NashornScriptEngineFactory();
+    private final ScriptEngineFactory factory = new NashornScriptEngineFactory();
 
     @Override
     public void onLoad() {
@@ -40,5 +41,4 @@ public class Nashorn extends JavaPlugin {
             getCommand("js").setExecutor(cli);
         }
     }
-
 }

@@ -22,10 +22,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class CLI implements TabExecutor, Listener {
-    Map<UUID, String> userInput = new HashMap<>();
-    Map<UUID, ScriptEngine> userEngines = new HashMap<>();
-    ScriptEngineFactory factory;
-    ScriptEngine engine;
+    private final Map<UUID, String> userInput = new HashMap<>();
+    private final Map<UUID, ScriptEngine> userEngines = new HashMap<>();
+    private final ScriptEngineFactory factory;
+    private final ScriptEngine engine;
     private final Plugin plugin;
 
     public CLI(ScriptEngineFactory factory, Plugin plugin) {
