@@ -1,10 +1,11 @@
-name: NashornJs
-main: de.eldoria.nashorn.Nashorn
+name: JavaScript
+main: de.eldoria.javascript.JavaScript
 version: 1.0
-description: Nashorn JavaScript Engine for Severs on Java 15 or higher.
+description: JavaScript Engine for Servers on Java 15 or higher.
 api-version: 1.13
 authors:
   - OpenJDK
+  - GraalVM
   - Hadde
 load: STARTUP
 
@@ -13,9 +14,10 @@ commands:
     aliases:
       - nashorn
       - eval
-    permission: nashorn.eval
+      - graal
+    permission: javascript.eval
     description: Evaluate some JS.
 
 permissions:
-  nashorn.eval:
+  javascript.eval:
     default: op

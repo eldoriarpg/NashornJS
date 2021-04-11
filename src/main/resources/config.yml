@@ -1,11 +1,3 @@
-names:
-  - nashorn
-  - Nashorn
-  - js
-  - JS
-  - JavaScript
-  - javascript
-  - ECMAScript
-  - ecmascript
+default: graal
 cli: false
 cliPerUser: false
