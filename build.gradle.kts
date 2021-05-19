@@ -16,7 +16,7 @@ dependencies {
 }
 
 group = "de.eldoria"
-version = "1.1.1"
+version = "1.1.2"
 description = "NashornJs"
 java.sourceCompatibility = JavaVersion.VERSION_11
 val shadebade = project.group as String + "." + project.name.toLowerCase() + "."
