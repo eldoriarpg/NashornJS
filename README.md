@@ -1,3 +1,9 @@
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/eldoriarpg/NashornJs/Verify%20state?style=for-the-badge&label=Building)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/eldoriarpg/NashornJs/Publish%20to%20Nexus?style=for-the-badge&label=Publishing)
+![Sonatype Nexus (Releases)](https://img.shields.io/nexus/maven-releases/de.eldoria/nashornjs?label=Release&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)
+![Sonatype Nexus (Development)](https://img.shields.io/nexus/maven-dev/de.eldoria/nashornjs?label=DEV&logo=Release&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)
+![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/de.eldoria/nashornjs?color=orange&label=Snapshot&server=https%3A%2F%2Feldonexus.de&style=for-the-badge)
+
 # OwO What is dis?
 
 Some Minecraft Plugins out there used the Nashorn JS Engine in the past to evaluate some stuff.\
@@ -12,9 +18,9 @@ You can use this service to retrieve your own nashorn engine instance.
 
 
 ``` java
-    var reg = Bukkit.getServer().getServicesManager().getRegistration(ScriptEngineManager.class);
-    var managerChan = reg.getProvider();
-    var nashornChan = managerChan.getEngineByName("nashorn");
+var reg = Bukkit.getServer().getServicesManager().getRegistration(ScriptEngineManager.class);
+var managerChan = reg.getProvider();
+var nashornChan = managerChan.getEngineByName("nashorn");
 ```
 
 That's all. Now you can use your nashorn instance like you always did.
