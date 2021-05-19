@@ -1,7 +1,7 @@
 name: NashornJs
 main: de.eldoria.nashorn.Nashorn
 version: 1.0
-description: Nashorn JavaScript Engine for Severs on Java 15 or higher.
+description: Nashorn JavaScript Engine for Servers on Java 15 or higher.
 api-version: 1.13
 authors:
   - OpenJDK
