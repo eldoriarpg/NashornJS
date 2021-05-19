@@ -1,4 +1,4 @@
-package de.eldoria.nashorn;
+package de.eldoria.nashornjs;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;

@@ -1,6 +1,6 @@
-package de.eldoria.nashorn;
+package de.eldoria.nashornjs;
 
-import de.eldoria.nashorn.command.CLI;
+import de.eldoria.nashornjs.command.CLI;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
