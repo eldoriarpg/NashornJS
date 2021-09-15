@@ -10,13 +10,13 @@ repositories {
 }
 
 dependencies {
-    implementation("org.openjdk.nashorn:nashorn-core:15.2")
-    compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
-    testCompileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
+    implementation("org.openjdk.nashorn", "nashorn-core", "15.3")
+    compileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
+    testCompileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
 }
 
 group = "de.eldoria"
-version = "1.1.2"
+version = "1.1.3"
 description = "NashornJs"
 java.sourceCompatibility = JavaVersion.VERSION_11
 val shadebade = project.group as String + "." + project.name.toLowerCase() + "."
