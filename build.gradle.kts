@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.openjdk.nashorn", "nashorn-core", "15.3")
+    implementation("org.openjdk.nashorn", "nashorn-core", "15.4")
     compileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
     testCompileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
 }
