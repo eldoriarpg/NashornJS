@@ -10,11 +10,13 @@ plugins {
 }
 
 repositories {
-    maven { url = uri("https://repo.maven.apache.org/maven2/") }
-    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
+    maven("https://repo.maven.apache.org/maven2/")
+    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://eldonexus.de/repository/maven-public/")
 }
 
 dependencies {
+    implementation("de.eldoria", "eldo-util", "1.14.4")
     implementation("org.openjdk.nashorn", "nashorn-core", "15.4")
     compileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
     testCompileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
@@ -29,13 +31,14 @@ java {
     withSourcesJar()
     withJavadocJar()
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(15))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
-val shadebade = project.group as String + "." + project.name.lowercase() + "."
+val shadebade = "de.eldoria.nashornjs.libs."
 
 publishData {
+    addBuildData()
     useEldoNexusRepos()
     publishComponent("java")
 }
@@ -62,6 +65,7 @@ publishing {
 
 tasks {
     shadowJar {
+        relocate("de.eldoria.eldoutilities", shadebade + "eldoutil")
         relocate("org.openjdk.nashorn", shadebade + "js")
         relocate("org.objectweb.asm", shadebade + "asm")
         mergeServiceFiles()

@@ -9,3 +9,4 @@ names:
   - ecmascript
 cli: false
 cliPerUser: false
+updateCheck: true
