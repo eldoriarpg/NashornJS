@@ -4,7 +4,7 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.ST
 plugins {
     java
     `maven-publish`
-    id("com.github.johnrengelman.shadow") version "8.1.0"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     id("de.chojo.publishdata") version "1.2.4"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
 }
