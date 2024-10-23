@@ -1,70 +1,74 @@
+import net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.OP
+import net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.STARTUP
+
 plugins {
     java
     `maven-publish`
-    id("com.github.johnrengelman.shadow") version "6.0.0"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("de.chojo.publishdata") version "1.4.0"
+    id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
 repositories {
-    maven { url = uri("https://repo.maven.apache.org/maven2/") }
-    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
+    maven("https://repo.maven.apache.org/maven2/")
+    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://eldonexus.de/repository/maven-public/")
 }
 
 dependencies {
-    implementation("org.openjdk.nashorn", "nashorn-core", "15.3")
+    implementation("de.eldoria", "eldo-util", "1.14.5")
+    implementation("org.openjdk.nashorn", "nashorn-core", "15.4")
     compileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
     testCompileOnly("com.destroystokyo.paper", "paper-api", "1.16.5-R0.1-SNAPSHOT")
 }
 
 group = "de.eldoria"
-version = "1.1.3"
+version = "1.1.4"
 description = "NashornJs"
-java.sourceCompatibility = JavaVersion.VERSION_11
-val shadebade = project.group as String + "." + project.name.toLowerCase() + "."
+
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+val shadebade = "de.eldoria.nashornjs.libs."
+
+publishData {
+    addBuildData()
+    useEldoNexusRepos()
+    publishComponent("java")
+}
 
 publishing {
-    val publishData = PublishData(project)
-
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-            groupId = project.group as String?
-            artifactId = project.name.toLowerCase()
-            version = publishData.getVersion()
-        }
+    publications.create<MavenPublication>("maven") {
+        publishData.configurePublication(this)
     }
 
     repositories {
         maven {
-            name = "EldoNexus"
-            url = uri(publishData.getRepository())
-
             authentication {
                 credentials(PasswordCredentials::class) {
                     username = System.getenv("NEXUS_USERNAME")
                     password = System.getenv("NEXUS_PASSWORD")
                 }
             }
+            name = "EldoNexus"
+            url = uri(publishData.getRepository())
+
         }
     }
 }
 
 tasks {
-    processResources {
-        from(sourceSets.main.get().resources.srcDirs) {
-            filesMatching("plugin.yml") {
-                expand(
-                    "version" to PublishData(project).getVersion(true)
-                )
-            }
-            duplicatesStrategy = DuplicatesStrategy.INCLUDE
-        }
-    }
-
     shadowJar {
+        relocate("de.eldoria.eldoutilities", shadebade + "eldoutil")
         relocate("org.openjdk.nashorn", shadebade + "js")
         relocate("org.objectweb.asm", shadebade + "asm")
         mergeServiceFiles()
-        archiveBaseName.set(project.name)
     }
 
     test {
@@ -73,42 +77,33 @@ tasks {
             events("passed", "skipped", "failed")
         }
     }
-    compileJava{
+    compileJava {
         options.encoding = "UTF-8"
     }
 }
 
-class PublishData(private val project: Project) {
-    var type: Type = getReleaseType()
-    var hashLength: Int = 7
+bukkit {
+    name = "NashornJs"
+    description = "Nashorn JavaScript Engine for Servers on Java 15 or higher."
+    main = "de.eldoria.nashornjs.Nashorn"
+    version = publishData.getVersion(true)
+    apiVersion = "1.13"
+    authors = listOf("OpenJDK", "Hadde")
+    load = STARTUP
 
-    private fun getReleaseType(): Type {
-        val branch = getCheckedOutBranch()
-        return when {
-            branch.contentEquals("master") -> Type.RELEASE
-            branch.startsWith("dev") -> Type.DEV
-            else -> Type.SNAPSHOT
+    commands {
+        register("js") {
+            aliases = listOf("nashorn", "eval")
+            permission = "nashorn.eval"
+            description = "Evaluate some JS."
         }
     }
 
-    private fun getCheckedOutGitCommitHash(): String = System.getenv("GITHUB_SHA")?.substring(0, hashLength) ?: "local"
-
-    private fun getCheckedOutBranch(): String = System.getenv("GITHUB_REF")?.replace("refs/heads/", "") ?: "local"
-
-    fun getVersion(): String = getVersion(false)
-
-    fun getVersion(appendCommit: Boolean): String =
-        type.append(getVersionString(), appendCommit, getCheckedOutGitCommitHash())
-
-    private fun getVersionString(): String = (project.version as String).replace("-SNAPSHOT", "").replace("-DEV", "")
-
-    fun getRepository(): String = type.repo
-
-    enum class Type(private val append: String, val repo: String, private val addCommit: Boolean) {
-        RELEASE("", "https://eldonexus.de/repository/maven-releases/", false),
-        DEV("-DEV", "https://eldonexus.de/repository/maven-dev/", true),
-        SNAPSHOT("-SNAPSHOT", "https://eldonexus.de/repository/maven-snapshots/", true);
-
-        fun append(name: String, appendCommit: Boolean, commitHash:String): String = name.plus(append).plus(if (appendCommit && addCommit) "-".plus(commitHash) else "")
+    permissions {
+        register("nashorn.eval") {
+            default = OP
+        }
     }
 }
+
+
